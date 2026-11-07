@@ -1,0 +1,48 @@
+name: benchmark
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      n:
+        description: "Tamanho da grade (n x n pontos interiores)"
+        default: "1024"
+      iter:
+        description: "Iteracoes por execucao"
+        default: "500"
+      metodo:
+        description: "Metodo iterativo"
+        type: choice
+        options: [jacobi, rbsor]
+        default: jacobi
+
+jobs:
+  testes-e-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compilar
+        run: make
+
+      - name: Verificar corretude
+        run: make test
+
+      - name: Benchmark de speedup
+        env:
+          N: ${{ github.event.inputs.n || '1024' }}
+          ITER: ${{ github.event.inputs.iter || '500' }}
+          METODO: ${{ github.event.inputs.metodo || 'jacobi' }}
+        run: |
+          ./poisson --n "$N" --iter "$ITER" --metodo "$METODO" \
+            --markdown resultado.md --csv resultado.csv
+          cat resultado.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: resultados
+          path: |
+            resultado.md
+            resultado.csv
