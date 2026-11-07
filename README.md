@@ -1,4 +1,4 @@
-# cfd-poisson-speedup
+# CFD Poisson Speedup
 
 Simulação do **sistema linear da pressão** (equação de Poisson 2D), uma das etapas mais
 custosas em CFD, com medição de **tempo de execução** e **speedup com múltiplas threads**
