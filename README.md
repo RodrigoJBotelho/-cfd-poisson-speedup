@@ -71,7 +71,7 @@ Use `--tol` para iterar até convergir.
 
 ## Resultados
 
-Cole aqui a tabela gerada pelo workflow, indicando a data e o ambiente (por exemplo, runner
+ A tabela gerada pelo workflow, indicando a data e o ambiente (por exemplo, runner
 `ubuntu-latest`).
 
 ## Limitações
